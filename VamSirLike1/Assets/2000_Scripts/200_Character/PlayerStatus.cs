@@ -1,12 +1,23 @@
 using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class Player : MonoBehaviour
+public class PlayerStatus : MonoBehaviour
 {
-    public int Hp { get; private set; }
+    public Dictionary<HpReason, int> HpReasonDictionary = new Dictionary<HpReason, int>();
+    private int mHp;
+    public int Hp
+    {
+        get
+        {
+            mHp = 0;
+            foreach (var hpValue in HpReasonDictionary)
+            {
+                mHp += hpValue.Value;
+            }
 
+            return mHp;
+        }
+    }
 
     public Dictionary<AtkReason, int> AtkReasonDictionary = new Dictionary<AtkReason, int>();
     private int mAtk;
@@ -31,38 +42,32 @@ public class Player : MonoBehaviour
         get
         {
             mMoveSpeed = 0;
-            foreach (var atkValue in MoveSpeedReasonDictionary)
+            foreach (var moveValue in MoveSpeedReasonDictionary)
             {
-                mMoveSpeed += atkValue.Value;
+                mMoveSpeed += moveValue.Value;
             }
 
             return mMoveSpeed;
         }
     }
-
-    private void Update()
+    public void AddHpReason(HpReason reason, int value)
     {
-        PlayerMoveInput();
+        if (HpReasonDictionary.TryAdd(reason, value) == false)
+        {
+            // Dic에 넣는 것에 실패했다 => 이미 해당 Key 값이 존재
+            HpReasonDictionary[reason] = value;
+
+        }
+
+#if Log
+        Log.Message(LogType.StatHp, $"Hp 수치 변화 {value}");
+#endif
     }
-
-    private void PlayerMoveInput()
+    public void RemoveHpReason(HpReason reason)
     {
-        // 키 입력
-        if (Input.GetKey(KeyCode.UpArrow) == true)
+        if (HpReasonDictionary.Remove(reason) == false)
         {
-            transform.position += (Vector3.up * Time.deltaTime) * MoveSpeed;
-        }
-        if (Input.GetKey(KeyCode.DownArrow) == true)
-        {
-            transform.position += Vector3.down * Time.deltaTime * MoveSpeed;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow) == true)
-        {
-            transform.position += Vector3.left * Time.deltaTime * MoveSpeed;
-        }
-        if (Input.GetKey(KeyCode.RightArrow) == true)
-        {
-            transform.position += Vector3.right * Time.deltaTime * MoveSpeed;
+            Log.Error(LogType.StatHp, $"해당 {reason}가 없습니다!");
         }
     }
 
@@ -72,12 +77,18 @@ public class Player : MonoBehaviour
         {
             // Dic에 넣는 것에 실패했다 => 이미 해당 Key 값이 존재
             AtkReasonDictionary[reason] = value;
-
         }
 
 #if Log
         Log.Message(LogType.StatAtk, $"공격력 수치 변화 {value}");
 #endif
+    }
+    public void RemoveAtkReason(AtkReason reason)
+    {
+        if (AtkReasonDictionary.Remove(reason) == false)
+        {
+            Log.Error(LogType.StatAtk, $"해당 {reason}가 없습니다!");
+        }
     }
 
     public void AddMoveSpeedReason(MoveSpeedReason reason, int value)
@@ -86,11 +97,17 @@ public class Player : MonoBehaviour
         {
             // Dic에 넣는 것에 실패했다 => 이미 해당 Key 값이 존재
             MoveSpeedReasonDictionary[reason] = value;
-
         }
 
 #if Log
         Log.Message(LogType.StatMoveSpeed, $"이동속도 수치 변화 {value}");
 #endif
+    }
+    public void RemoveMoveSpeedReason(MoveSpeedReason reason)
+    {
+        if (MoveSpeedReasonDictionary.Remove(reason) == false)
+        {
+            Log.Error(LogType.StatMoveSpeed, $"해당 {reason}가 없습니다!");
+        }
     }
 }
