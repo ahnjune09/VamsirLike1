@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStatus : MonoBehaviour
+public class EnemyStatus : MonoBehaviour
 {
-    public Dictionary<HpReason, int> HpReasonDictionary = new Dictionary<HpReason, int>();
+    private Dictionary<HpReason, int> mHpReasonDictionary = new Dictionary<HpReason, int>();
     private int mMaxHp;
     public int MaxHp
     {
         get
         {
             mMaxHp = 0;
-            foreach (var hpValue in HpReasonDictionary)
+            foreach (var hpValue in mHpReasonDictionary)
             {
                 mMaxHp += hpValue.Value;
             }
@@ -18,15 +18,14 @@ public class PlayerStatus : MonoBehaviour
             return mMaxHp;
         }
     }
-
-    public Dictionary<AtkReason, int> AtkReasonDictionary = new Dictionary<AtkReason, int>();
+    private Dictionary<AtkReason, int> mAtkReasonDictionary = new Dictionary<AtkReason, int>();
     private int mAtk;
     public int Atk
     {
         get
         {
             mAtk = 0;
-            foreach (var atkValue in AtkReasonDictionary)
+            foreach (var atkValue in mAtkReasonDictionary)
             {
                 mAtk += atkValue.Value;
             }
@@ -34,17 +33,16 @@ public class PlayerStatus : MonoBehaviour
             return mAtk;
         }
     }
-
-    public Dictionary<MoveSpeedReason, int> MoveSpeedReasonDictionary = new Dictionary<MoveSpeedReason, int>();
+    private Dictionary<MoveSpeedReason, int> mMoveSpeedReasonDictionary = new Dictionary<MoveSpeedReason, int>();
     private int mMoveSpeed;
     public int MoveSpeed
     {
         get
         {
             mMoveSpeed = 0;
-            foreach (var moveValue in MoveSpeedReasonDictionary)
+            foreach (var MoveSpeedValue in mMoveSpeedReasonDictionary)
             {
-                mMoveSpeed += moveValue.Value;
+                mMoveSpeed += MoveSpeedValue.Value;
             }
 
             return mMoveSpeed;
@@ -52,10 +50,10 @@ public class PlayerStatus : MonoBehaviour
     }
     public void AddHpReason(HpReason reason, int value)
     {
-        if (HpReasonDictionary.TryAdd(reason, value) == false)
+        if (mHpReasonDictionary.TryAdd(reason, value) == false)
         {
             // Dic에 넣는 것에 실패했다 => 이미 해당 Key 값이 존재
-            HpReasonDictionary[reason] = value;
+            mHpReasonDictionary[reason] = value;
 
         }
 
@@ -65,7 +63,7 @@ public class PlayerStatus : MonoBehaviour
     }
     public void RemoveHpReason(HpReason reason)
     {
-        if (HpReasonDictionary.Remove(reason) == false)
+        if (mHpReasonDictionary.Remove(reason) == false)
         {
             Log.Error(LogType.StatHp, $"해당 {reason}가 없습니다!");
         }
@@ -73,10 +71,10 @@ public class PlayerStatus : MonoBehaviour
 
     public void AddAtkReason(AtkReason reason, int value)
     {
-        if (AtkReasonDictionary.TryAdd(reason, value) == false)
+        if (mAtkReasonDictionary.TryAdd(reason, value) == false)
         {
             // Dic에 넣는 것에 실패했다 => 이미 해당 Key 값이 존재
-            AtkReasonDictionary[reason] = value;
+            mAtkReasonDictionary[reason] = value;
         }
 
 #if Log
@@ -85,7 +83,7 @@ public class PlayerStatus : MonoBehaviour
     }
     public void RemoveAtkReason(AtkReason reason)
     {
-        if (AtkReasonDictionary.Remove(reason) == false)
+        if (mAtkReasonDictionary.Remove(reason) == false)
         {
             Log.Error(LogType.StatAtk, $"해당 {reason}가 없습니다!");
         }
@@ -93,10 +91,10 @@ public class PlayerStatus : MonoBehaviour
 
     public void AddMoveSpeedReason(MoveSpeedReason reason, int value)
     {
-        if (MoveSpeedReasonDictionary.TryAdd(reason, value) == false)
+        if (mMoveSpeedReasonDictionary.TryAdd(reason, value) == false)
         {
             // Dic에 넣는 것에 실패했다 => 이미 해당 Key 값이 존재
-            MoveSpeedReasonDictionary[reason] = value;
+            mMoveSpeedReasonDictionary[reason] = value;
         }
 
 #if Log
@@ -105,15 +103,17 @@ public class PlayerStatus : MonoBehaviour
     }
     public void RemoveMoveSpeedReason(MoveSpeedReason reason)
     {
-        if (MoveSpeedReasonDictionary.Remove(reason) == false)
+        if (mMoveSpeedReasonDictionary.Remove(reason) == false)
         {
             Log.Error(LogType.StatMoveSpeed, $"해당 {reason}가 없습니다!");
         }
     }
+    #region Editor
     public void TempStatusInit()
     {
         AddHpReason(HpReason.Level, 10);
-        AddAtkReason(AtkReason.Level, 1);
+        AddAtkReason(AtkReason.Level, 10);
         AddMoveSpeedReason(MoveSpeedReason.Level, 10);
     }
+    #endregion
 }

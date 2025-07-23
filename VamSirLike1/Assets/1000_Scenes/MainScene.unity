@@ -2173,11 +2173,15 @@ PrefabInstance:
     - target: {fileID: 31662381983362218, guid: b5c5dc9683028ab4e96e3f219ab6a70b, type: 3}
       propertyPath: Player
       value: 
-      objectReference: {fileID: 3660720141677832889, guid: f929f75f78636e940b1b2d618e19979a, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 31662381983362218, guid: b5c5dc9683028ab4e96e3f219ab6a70b, type: 3}
       propertyPath: RefEnemy
       value: 
       objectReference: {fileID: 6013610351380835761, guid: 095cb45c5adc0f14081a224bf20ed680, type: 3}
+    - target: {fileID: 31662381983362218, guid: b5c5dc9683028ab4e96e3f219ab6a70b, type: 3}
+      propertyPath: SpawnDistance
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2504697923966641792, guid: b5c5dc9683028ab4e96e3f219ab6a70b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.29705212
@@ -2217,6 +2221,10 @@ PrefabInstance:
     - target: {fileID: 2504697923966641792, guid: b5c5dc9683028ab4e96e3f219ab6a70b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3575949120908819510, guid: b5c5dc9683028ab4e96e3f219ab6a70b, type: 3}
+      propertyPath: m_Name
+      value: Log
       objectReference: {fileID: 0}
     - target: {fileID: 3733711562727898059, guid: b5c5dc9683028ab4e96e3f219ab6a70b, type: 3}
       propertyPath: m_Name

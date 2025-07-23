@@ -38,12 +38,17 @@ public static class Log
         {
             case LogType.StatAtk:
             {
-                typeMessage = $"</color=red>[{type}]</color>";
+                typeMessage = $"<color=red>[{type}]</color>";
             }
             break;
             case LogType.StatMoveSpeed:
             {
-                typeMessage = $"[<Color=green>[{type}]</color>] ";
+                typeMessage = $"<color=green>[{type}]</color>";
+            }
+            break;
+            case LogType.StatHp:
+            {
+                typeMessage = $"<Color=blue>[{type}]</color> ";
             }
             break;
         }
@@ -56,12 +61,12 @@ public static class Log
         {
             case LogType.StatAtk:
             {
-                typeMessage = $"</color=red>[{type}]</color>";
+                typeMessage = $"<color=red>[{type}]</color>";
             }
             break;
             case LogType.StatMoveSpeed:
             {
-                typeMessage = $"[<Color=green>[{type}]</color>] ";
+                typeMessage = $"<color=green>[{type}]</color>";
             }
             break;
         }

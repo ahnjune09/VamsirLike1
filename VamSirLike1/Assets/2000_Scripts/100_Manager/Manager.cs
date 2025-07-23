@@ -10,8 +10,8 @@ public class Manager : MonoBehaviour
     {
         SetLogManager();
         SetDataManager();
-        SetStageManager();
         SetPoolManager();
+        SetStageManager();
     }
 
     public static LogManager Log { get; private set; }
